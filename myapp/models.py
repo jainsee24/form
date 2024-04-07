@@ -38,3 +38,10 @@ class UserDetail(models.Model):
     uscis_online_account_number = models.CharField(max_length=100, blank=True)
     gender = models.CharField(max_length=50, blank=True)
     marital_status = models.CharField(max_length=50, blank=True)
+
+
+class OtherName(models.Model):
+    user_detail = models.ForeignKey(UserDetail, related_name='other_names', on_delete=models.CASCADE)
+    family_name = models.CharField(max_length=100, blank=True)
+    given_name = models.CharField(max_length=100, blank=True)
+    middle_name = models.CharField(max_length=100, blank=True)
