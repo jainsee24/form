@@ -54,7 +54,10 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 
 ]
-CORS_ALLOWED_ORIGINS = ['*']
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",  
+]
+
 ROOT_URLCONF = "myproject.urls"
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
