@@ -26,13 +26,15 @@ def createUsername(request):
 
 @api_view(['POST'])
 def fillDetail(request):
-    username = request.data.get('username')
+    username = request.data.get('userDetails').get('username')
+    # print(request.data)
     if not username:
         return Response({'error': 'Username is required'}, status=400)
     
     try:
         user = UserDetail.objects.get(username=username)
-        serializer = UserDetailSerializer(user, data=request.data, partial=True)
+        serializer = UserDetailSerializer(user, data=request.data.get('userDetails'), partial=True)
+        print(serializer)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse({'message': 'Saved successfully'})
