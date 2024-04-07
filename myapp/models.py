@@ -2,15 +2,35 @@ from django.db import models
 
 class UserDetail(models.Model):
     username = models.CharField(max_length=150, unique=True)
-    given_name = models.CharField(max_length=100, blank=True)  # This represents the first name
-    family_name = models.CharField(max_length=100, blank=True)  # This represents the last name
+    given_name = models.CharField(max_length=100, blank=True)
+    family_name = models.CharField(max_length=100, blank=True)
     middle_name = models.CharField(max_length=100, blank=True)
-    application_type_initial_permission = models.CharField(max_length=5, blank=True)  # "True" or "False"
-    application_type_replacement = models.CharField(max_length=5, blank=True)
-    application_type_renewal = models.CharField(max_length=5, blank=True)
+    in_care_of_name = models.CharField(max_length=100, blank=True)
+    street_number_name = models.CharField(max_length=100, blank=True)
+    apt_ste_flr = models.CharField(max_length=100, blank=True)
+    city_or_town = models.CharField(max_length=100, blank=True)
+    state = models.CharField(max_length=100, blank=True)
+    zip_code = models.CharField(max_length=20, blank=True)
+    is_physical_same_as_mailing = models.BooleanField(default=True)
+    physical_street_number_name = models.CharField(max_length=100, blank=True)
+    physical_apt_ste_flr = models.CharField(max_length=100, blank=True)
+    physical_city_or_town = models.CharField(max_length=100, blank=True)
+    physical_state = models.CharField(max_length=100, blank=True)
+    physical_zip_code = models.CharField(max_length=20, blank=True)
     alien_registration_number = models.CharField(max_length=100, blank=True)
     uscis_account_number = models.CharField(max_length=100, blank=True)
-    date_of_birth = models.CharField(max_length=10, blank=True)  # "YYYY-MM-DD"
+    has_previously_filed_i765 = models.CharField(max_length=5, blank=True)
+    has_ssa_card = models.CharField(max_length=5, blank=True)
+    ssn = models.CharField(max_length=11, blank=True)
+    wants_ssa_card = models.CharField(max_length=5, blank=True)
+    consent_for_ssa_disclosure = models.CharField(max_length=5, blank=True)
+    father_family_name = models.CharField(max_length=100, blank=True)
+    father_given_name = models.CharField(max_length=100, blank=True)
+    mother_family_name = models.CharField(max_length=100, blank=True)
+    mother_given_name = models.CharField(max_length=100, blank=True)
+    countries_of_citizenship1 = models.CharField(max_length=100, blank=True)
+    countries_of_citizenship2 = models.CharField(max_length=100, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
     country_of_birth = models.CharField(max_length=100, blank=True)
     city_of_birth = models.CharField(max_length=100, blank=True)
     state_province_of_birth = models.CharField(max_length=100, blank=True)
@@ -23,22 +43,26 @@ class UserDetail(models.Model):
     travel_document_number = models.CharField(max_length=100, blank=True)
     form_i94_number = models.CharField(max_length=100, blank=True)
     place_of_last_arrival = models.CharField(max_length=100, blank=True)
-    date_of_last_arrival = models.CharField(max_length=10, blank=True)  # "YYYY-MM-DD"
+    date_of_last_arrival = models.DateField(null=True, blank=True)
     country_of_passport = models.CharField(max_length=100, blank=True)
-    passport_expiration_date = models.CharField(max_length=10, blank=True)  # "YYYY-MM-DD"
+    passport_expiration_date = models.DateField(null=True, blank=True)
     passport_number = models.CharField(max_length=100, blank=True)
     stem_opt_category = models.CharField(max_length=100, blank=True)
-    arrested_or_convicted = models.CharField(max_length=5, blank=True)  # "True" or "False"
-    special_filing_instructions = models.CharField(max_length=255, blank=True)
+    arrested_or_convicted = models.BooleanField(default=False)
+    special_filing_instructions = models.TextField(blank=True)
     employment_based_categories = models.CharField(max_length=100, blank=True)
-    apt_ste_flr_physical = models.CharField(max_length=100, blank=True)
-    city_or_town_physical = models.CharField(max_length=100, blank=True)
-    state_physical = models.CharField(max_length=100, blank=True)
-    zip_code_physical = models.CharField(max_length=15, blank=True)
     uscis_online_account_number = models.CharField(max_length=100, blank=True)
     gender = models.CharField(max_length=50, blank=True)
     marital_status = models.CharField(max_length=50, blank=True)
+    degree = models.CharField(max_length=100, blank=True)
+    h1b_spouse_i797_receipt_number = models.CharField(max_length=100, blank=True)
+    i140_receipt_number = models.CharField(max_length=100, blank=True)
 
+class ApplicationType(models.Model):
+    user_detail = models.OneToOneField(UserDetail, on_delete=models.CASCADE, related_name='application_type')
+    initial_permission = models.BooleanField(default=False)
+    replacement = models.BooleanField(default=False)
+    renewal = models.BooleanField(default=False)
 
 class OtherName(models.Model):
     user_detail = models.ForeignKey(UserDetail, related_name='other_names', on_delete=models.CASCADE)

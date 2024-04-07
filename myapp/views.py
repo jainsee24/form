@@ -40,3 +40,31 @@ def fillDetail(request):
             return Response(serializer.errors, status=400)
     except UserDetail.DoesNotExist:
         return JsonResponse({'error': 'Username does not exist'}, status=404)
+
+
+
+@api_view(['POST'])
+def createUserDetail(request):
+    serializer = UserDetailSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_BAD_REQUEST)
+
+@api_view(['GET', 'PUT'])
+def userDetail(request, pk):
+    try:
+        user_detail = UserDetail.objects.get(pk=pk)
+    except UserDetail.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = UserDetailSerializer(user_detail)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = UserDetailSerializer(user_detail, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
