@@ -57,8 +57,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "myproject.urls"
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
-CORS_ALLOW_HEADERS = ['*', 'Authorization', 'Content-Type']
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
